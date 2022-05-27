@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 import { logUserIn } from "../apollo";
 import AuthLayout from "../components/auth/AuthLayout";
 import BottomBox from "../components/auth/BottomBox";
@@ -10,6 +11,7 @@ import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Inputs";
 import Separator from "../components/auth/Separator";
 import SubmitButton from "../components/auth/SubmitButton";
+import Notification from "../components/Notification";
 import PageTitle from "../components/PageTitle";
 
 import routes from "./routes";
@@ -25,6 +27,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 function Login() {
+  const location: any = useLocation();
+
   interface FormData {
     username: string;
     password: string;
@@ -37,7 +41,13 @@ function Login() {
     //getValues,
     setError,
     clearErrors,
-  } = useForm<FormData>({ mode: "onChange" });
+  } = useForm<FormData>({
+    mode: "onChange",
+    defaultValues: {
+      username: location?.state?.username || "",
+      password: location?.state?.password || "",
+    },
+  });
   //console.log(watch());
   const onCompleted = (data: any) => {
     const {
@@ -79,6 +89,7 @@ function Login() {
           <FontAwesomeIcon icon={faInstagram} size="3x" />
         </div>
         <form onSubmit={handleSubmit(onsubmitValid, onsubmitInValid)}>
+          <Notification message={location?.state?.message} />
           <Input
             {...register("username", {
               required: "username is required",

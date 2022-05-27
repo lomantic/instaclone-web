@@ -63,11 +63,15 @@ function SignUp() {
     register,
     handleSubmit,
     setError,
+    getValues,
     formState: { errors, isValid },
-  } = useForm<FormData>({ mode: "onChange" });
+  } = useForm<FormData>({
+    mode: "onChange",
+  });
 
   const onCompleted = (data: any) => {
     // gql 결과를 여기로 받음
+    const { username, password } = getValues();
     const {
       createAccount: { ok, error },
     } = data;
@@ -77,7 +81,11 @@ function SignUp() {
       });
       return;
     }
-    history.push(routes.home);
+    history.push(routes.home, {
+      message: "Account created. Please log in",
+      username,
+      password,
+    });
   };
 
   const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {

@@ -3,21 +3,21 @@ import reset from "styled-reset";
 
 export const lightTheme = {
   accent: "#0095f6",
-  bgColor: "white",
-  fontColor: "black",
+  bgColor: "#ffffff",
+  fontColor: "#3a3232",
   borderColor: "rgb(219, 219,219)",
 };
 export const darkTheme = {
   accent: "#0095f6",
-  bgColor: "black",
-  fontColor: "white",
+  bgColor: "#3a3232",
+  fontColor: "#ffffff",
   borderColor: "rgb(219, 219,219)",
 };
 
 export const ourTheme: DefaultTheme = {
   accent: "#0095f6",
-  bgColor: "white",
-  fontColor: "black",
+  bgColor: "#ffffff",
+  fontColor: "#3a3232",
   borderColor: "rgb(219, 219,219)",
 };
 
@@ -31,7 +31,9 @@ export const GlobalStyles = createGlobalStyle`
   }
   body{
     background-color: ${(props) => props.theme.bgColor};
-  }
+    color:  ${(props) => props.theme.fontColor};
+  } 
+  
   a{
     text-decoration: none;
   }
