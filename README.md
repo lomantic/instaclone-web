@@ -1,9 +1,10 @@
 # Instaclone web
 
-- [] Router setting
-- [] Authentication
-- [] Arch.
-- [] Styles
+- [x] Router setting
+- [x] Authentication
+- [x] Arch.
+- [x] Styles
+- [] Log In /Sign Up
 
 # Getting Started with Create React App
 
