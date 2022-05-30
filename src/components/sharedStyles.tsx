@@ -10,3 +10,7 @@ export const FatLink = styled.span`
   font-weight: 600;
   text-align: center;
 `;
+
+export const FatText = styled.span`
+  font-weight: 600;
+`;

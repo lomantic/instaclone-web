@@ -18,7 +18,8 @@ function useUser() {
   useEffect(() => {
     if (data?.me === null) {
       //token 이 존재하지만 유효하지 않다는 뜻
-      logUserOut();
+      //임시로 해제 오류해결후 풀겠음
+      //logUserOut();
     }
   }, [data]);
 

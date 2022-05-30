@@ -42,6 +42,11 @@ const Button = styled.span`
   font-weight: 600;
 `;
 
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data }: any = useUser();
@@ -53,7 +58,7 @@ function Header() {
         </Column>
         <Column>
           {isLoggedIn ? (
-            <>
+            <IconContainer>
               <Icon>
                 <FontAwesomeIcon icon={faHome} size="lg" />
               </Icon>
@@ -61,13 +66,13 @@ function Header() {
                 <FontAwesomeIcon icon={faCompass} size="lg" />
               </Icon>
               <Icon>
-                {data?.me?.avatar ? (
-                  <Avatar />
+                {!data?.me?.avatar ? (
+                  <Avatar url={data?.me?.avatar} />
                 ) : (
                   <FontAwesomeIcon icon={faUser} size="lg" />
                 )}
               </Icon>
-            </>
+            </IconContainer>
           ) : (
             <Link to={routes.home}>
               <Button>Login</Button>
