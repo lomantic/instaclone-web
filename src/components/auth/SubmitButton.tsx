@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SButton = styled.input`
+const Button = styled.input`
   margin-top: 15px;
   border-radius: 3px;
   background-color: ${(props) => props.theme.accent};
@@ -13,7 +13,7 @@ const SButton = styled.input`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-function SubmitButton(props: any) {
-  return <SButton {...props} />;
-}
-export default SubmitButton;
+// function SubmitButton(props: any) {
+//   return <SButton {...props} />;
+// }
+export default Button;

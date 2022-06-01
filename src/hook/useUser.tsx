@@ -14,12 +14,11 @@ const ME_QUERY = gql`
 function useUser() {
   const hasToken = useReactiveVar(isLoggedInVar);
   const { data } = useQuery(ME_QUERY, { skip: !hasToken });
-  console.log(data);
+  //console.log(data);
   useEffect(() => {
     if (data?.me === null) {
       //token 이 존재하지만 유효하지 않다는 뜻
-      //임시로 해제 오류해결후 풀겠음
-      //logUserOut();
+      logUserOut();
     }
   }, [data]);
 

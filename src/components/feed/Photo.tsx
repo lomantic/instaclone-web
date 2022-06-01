@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "../Avatar";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
+import { Link } from "react-router-dom";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -23,8 +24,9 @@ const TOGGLE_LIKE_MUTATION = gql`
 
 const PhotoContainer = styled.div`
   background-color: white;
+  border-radius: 4px;
   border: 1px solid ${(props) => props.theme.borderColor};
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   max-width: 615px;
 `;
 
@@ -32,6 +34,7 @@ const PhotoHeader = styled.div`
   padding: 15px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgb(239, 239, 239);
 `;
 
 const Username = styled(FatText)`
@@ -40,23 +43,33 @@ const Username = styled(FatText)`
 
 const PhotoFile = styled.img`
   min-width: 100%;
+  max-width: 100%;
 `;
 
 const PhotoData = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  div {
-    display: flex;
-    align-items: center;
-  }
+  padding: 12px 15px;
 `;
 const PhotoAction = styled.div`
   margin-right: 10px;
   cursor: pointer;
 `;
+const PhotoActions = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  div {
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    font-size: 20px;
+  }
+`;
 
-const Likes = styled(FatText)``;
+const Likes = styled(FatText)`
+  margin-top: 15px;
+  display: block;
+`;
 
 function Photo({
   id,
@@ -75,17 +88,20 @@ function Photo({
       },
     } = result;
     if (ok) {
-      cache.writeFragment({
-        id: `Photo: ${id}`,
-        fragment: gql`
-          fragment something on Photo {
-            isLiked
-            likes
-          }
-        `,
-        data: {
-          isLike: !isLiked,
-          likes: isLiked ? likes - 1 : likes + 1,
+      const photoId = `Photo:${id}`;
+      cache.modify({
+        id: photoId,
+        fields: {
+          isLiked(prev: any) {
+            return !prev;
+          },
+          likes(prev: any) {
+            if (isLiked) {
+              return prev - 1;
+            } else {
+              return prev + 1;
+            }
+          },
         },
       });
     }
@@ -98,12 +114,16 @@ function Photo({
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Avatar url={user.avatar} />
-        <Username>{user.username}</Username>
+        <Link to={`/users/${user.username}`}>
+          <Avatar url={user.avatar} />
+        </Link>
+        <Link to={`/users/${user.username}`}>
+          <Username>{user.username}</Username>
+        </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>
-        <PhotoAction>
+        <PhotoActions>
           <div>
             <PhotoAction>
               <FontAwesomeIcon size={"2x"} icon={faComment} />
@@ -122,9 +142,10 @@ function Photo({
           <div>
             <FontAwesomeIcon size={"2x"} icon={faBookmark} />
           </div>
-        </PhotoAction>
+        </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
         <Comments
+          photoId={id}
           author={user.username}
           caption={caption}
           comments={comments}

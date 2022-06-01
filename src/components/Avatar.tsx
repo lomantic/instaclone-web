@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 const SAvatar = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
   background-color: #2c2c2c;
+  overflow: hidden;
 `;
 
 const Img = styled.img`
